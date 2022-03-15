@@ -15,6 +15,21 @@ Rectangle {
         anchors.top: parent.top
         anchors.topMargin: 20
         height:70; width: 170
+
+        function getTimeStr() {
+            var today = new Date();
+            var time = today.getHours() + ":" + today.getMinutes();
+            console.log("Current Time: ", time);
+            return time;
+        }
+
+        Text {
+            text: {timeDisplay.getTimeStr()}
+            anchors.centerIn: parent
+            color: 'green'
+            font.pixelSize: parent.height*0.80
+        }
+
     }
 
     Button {
