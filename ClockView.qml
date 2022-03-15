@@ -4,6 +4,9 @@ import QtQuick.Controls 2.12
 Rectangle {
     anchors.fill: parent
     color: 'lightgray'
+    id: root
+    property var categoryModel: ["Study", "Other"]
+
     Rectangle {
         id: timeDisplay
         color: 'black'
@@ -39,11 +42,47 @@ Rectangle {
     }
 
     Item {
+        id: categoryStuff
         anchors.left: timeDisplay.right
         anchors.leftMargin: 15
         anchors.right: parent.right
         anchors.rightMargin: 10
         anchors.bottom: parent.bottom
         anchors.top: timeDisplay.top
+        Text {
+            id: label
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: qsTr("Category")
+            font.pointSize: 11
+        }
+        ComboBox {
+            id: combo
+            anchors.top: label.bottom
+            anchors.topMargin: 10
+            width: parent.width*.80
+            model: root.categoryModel
+        }
+
+        Rectangle {
+            id: addButton
+            width: 18; height: 18
+            color: 'transparent'
+            anchors.left: combo.right
+            anchors.leftMargin: 10
+            anchors.verticalCenter: combo.verticalCenter
+            Text {
+                text: qsTr("(+)")
+                anchors.centerIn: parent
+                color: 'red'
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    console.log("Adding Category!")
+                }
+            }
+        }
+
     }
 }
