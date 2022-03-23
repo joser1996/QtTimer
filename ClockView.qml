@@ -16,6 +16,34 @@ Rectangle {
         anchors.topMargin: 20
         height:70; width: 170
 
+
+        property int hours: 0
+        property int minutes: 0
+        property int seconds: 0
+
+        Timer {
+            interval: 1000; running: true; repeat: true;
+            onTriggered: timeDisplay.updateTime()
+        }
+
+        function updateTime() {
+            seconds++;
+            if (seconds == 60) {
+                seconds = 0
+                minutes++;
+                if (minutes == 60) {
+                    minutes = 0
+                    hours++
+                }
+            }
+
+            let mins = minutes <= 9 ? "0"+minutes : minutes
+            let hrs = hours <= 9 ? "0"+hours : hours
+            let secs = seconds <= 9 ? "0"+seconds : seconds
+            let timeStr =  hrs + ":" + mins + ":" + secs
+            timeLabel.text = timeStr
+        }
+
         function getTimeStr() {
             var today = new Date();
             var time = today.getHours() + ":" + today.getMinutes();
@@ -24,10 +52,11 @@ Rectangle {
         }
 
         Text {
-            text: {timeDisplay.getTimeStr()}
+            id: timeLabel
+            text: ""
             anchors.centerIn: parent
             color: 'green'
-            font.pixelSize: parent.height*0.80
+            font.pixelSize: 10
         }
 
     }
