@@ -48,9 +48,14 @@ Rectangle {
         Text {
             id: timeLabel
             text: "00:00:00"
-            anchors.centerIn: parent
+            font.pointSize: 100
+            minimumPointSize: 10
+            fontSizeMode: Text.Fit
             color: 'green'
-            font.pixelSize: 10
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.topMargin: 5
         }
 
     }
