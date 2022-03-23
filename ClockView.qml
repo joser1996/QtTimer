@@ -6,7 +6,8 @@ Rectangle {
     color: 'lightgray'
     id: root
     property var categoryModel: ["Study", "Other"]
-
+    property alias running: timer.running
+    focus: true
     Rectangle {
         id: timeDisplay
         color: 'black'
@@ -16,13 +17,13 @@ Rectangle {
         anchors.topMargin: 20
         height:70; width: 170
 
-
         property int hours: 0
         property int minutes: 0
         property int seconds: 0
 
         Timer {
-            interval: 1000; running: true; repeat: true;
+            id: timer
+            interval: 1000; running: false; repeat: true;
             onTriggered: timeDisplay.updateTime()
         }
 
@@ -44,21 +45,18 @@ Rectangle {
             timeLabel.text = timeStr
         }
 
-        function getTimeStr() {
-            var today = new Date();
-            var time = today.getHours() + ":" + today.getMinutes();
-            console.log("Current Time: ", time);
-            return time;
-        }
-
         Text {
             id: timeLabel
-            text: ""
+            text: "00:00:00"
             anchors.centerIn: parent
             color: 'green'
             font.pixelSize: 10
         }
 
+    }
+
+    Keys.onSpacePressed: {
+        playPause.clicked()
     }
 
     Button {
@@ -71,6 +69,7 @@ Rectangle {
 
         onClicked: {
             console.log("Play/Pause pressed!")
+            root.running = !root.running
         }
     }
 
