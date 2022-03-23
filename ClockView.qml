@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.12
+import QtQuick.Dialogs 1.3
 
 Rectangle {
     anchors.fill: parent
@@ -7,7 +8,7 @@ Rectangle {
     id: root
     property var categoryModel: ["Study", "Other"]
     property alias running: timer.running
-    focus: true
+    //focus: true
     Rectangle {
         id: timeDisplay
         color: 'black'
@@ -128,6 +129,43 @@ Rectangle {
                 anchors.fill: parent
                 onClicked: {
                     console.log("Adding Category!")
+                    addCategoryDialog.open()
+                }
+            }
+
+            Dialog {
+                id: addCategoryDialog
+                title: "Add Category"
+                standardButtons: StandardButton.Save | StandardButton.Cancel
+                onAccepted: {
+                    console.log("Saved: ", myInput.text)
+                    myInput.text = "Category"
+                }
+
+                onRejected: {
+                    console.log("Canceled")
+                    myInput.text = "Category"
+                }
+
+                Item {
+                    id: content
+                    implicitWidth: 400; implicitHeight: 100
+                    Column {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.top: parent.top
+                        anchors.topMargin: 10
+                        spacing: 10
+                        Text {
+                            text: "Enter new category name."
+                            font.pixelSize: 20
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                        MyInput {
+                            id: myInput
+                            width: 300
+                            height: 50
+                        }
+                    }
                 }
             }
         }

@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>ClockView.qml</file>
+        <file>MyInput.qml</file>
     </qresource>
 </RCC>
