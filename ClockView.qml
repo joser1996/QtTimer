@@ -6,7 +6,6 @@ Rectangle {
     anchors.fill: parent
     color: 'lightgray'
     id: root
-    property var categoryModel: ["Study", "Other"]
     property alias running: timer.running
     //focus: true
     Rectangle {
@@ -109,7 +108,8 @@ Rectangle {
             anchors.top: label.bottom
             anchors.topMargin: 10
             width: parent.width*.80
-            model: root.categoryModel
+            model: myModel
+            textRole: "category"
         }
 
         Rectangle {
@@ -139,6 +139,9 @@ Rectangle {
                 standardButtons: StandardButton.Save | StandardButton.Cancel
                 onAccepted: {
                     console.log("Saved: ", myInput.text)
+
+                    database.insertIntoTable(myInput.text);
+                    myModel.updateModel();
                     myInput.text = "Category"
                 }
 

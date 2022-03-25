@@ -1,7 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
-
+#include <QQmlContext>
 #include "database.h"
 #include "listmodel.h"
 
@@ -13,6 +13,13 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
+
+    DataBase database;
+    database.connectToDataBase();
+
+    CategoryModel* model = new CategoryModel();
+    engine.rootContext()->setContextProperty("myModel", model);
+    engine.rootContext()->setContextProperty("database", &database);
 
     QQuickStyle::setStyle("Fusion");
     const QUrl url(QStringLiteral("qrc:/main.qml"));
