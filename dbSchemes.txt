@@ -2,3 +2,4 @@ table: categories
 | id | category(string) |
 
 table: timeEntry
+| id | category(string) | date | duration(seconds) |
