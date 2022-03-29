@@ -86,6 +86,30 @@ Rectangle {
         anchors.top: playPause.top
         onClicked: {
             console.log("Stop pressed!")
+            //save time entry into database
+            root.running = false;
+
+            let time = timeDisplay.seconds + (timeDisplay.minutes * 60) + (timeDisplay.hours * 60 * 60);
+            //console.log("Time durations: ", time);
+
+            resetTimer();
+
+            let categoryName = combo.currentText;
+            if (categoryName === "") return
+
+            let date = new Date();
+            let dateStr = date.toISOString();
+
+            if (!database.insertIntoTimeTable(categoryName, dateStr, time)) {
+                console.log("Insert into  time table failed");
+            }
+        }
+
+        function resetTimer() {
+            timeDisplay.hours = 0;
+            timeDisplay.minutes = 0;
+            timeDisplay.seconds = 0;
+            timeLabel.text = "00:00:00"
         }
     }
 
@@ -135,7 +159,9 @@ Rectangle {
 
                     database.insertIntoTable(myInput.text);
                     myModel.updateModel();
+                    combo.currentIndex = combo.find(myInput.text)
                     myInput.text = "Category"
+
                 }
 
                 onRejected: {

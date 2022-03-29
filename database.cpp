@@ -16,7 +16,7 @@ void DataBase::connectToDataBase() {
 
 bool DataBase::restoreDataBase() {
     if (this->openDataBase()) {
-        return (this->createTable());
+        return (this->createTable() && this->createTimeTable());
     } else {
         qDebug() << "Failed to restore the database";
         return false;
@@ -54,6 +54,23 @@ bool DataBase::createTable() {
     return false;
 }
 
+bool DataBase::createTimeTable() {
+    QString q = "CREATE TABLE " + QString::fromUtf8(TTABLE)
+            + " (" + "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "category VARCHAR(50) NOT NULL, " +
+            "date VARCHAR(50) NOT NULL, " +
+            "duration INTEGER NOT NULL)";
+    QSqlQuery query;
+    if (!query.exec(q)) {
+        qDebug() << "Database error of create timeTable" << TTABLE;
+        qDebug() << query.lastError().text();
+        return false;
+    } else {
+        return true;
+    }
+    return false;
+}
+
 bool DataBase::insertIntoTable(const QVariantList& data) {
     QSqlQuery query;
     query.prepare("INSERT INTO " CTABLE " (category)"
@@ -83,6 +100,25 @@ bool DataBase::insertIntoTable(const QString& cat) {
         return false;
     } else return true;
 
+    return false;
+}
+
+bool DataBase::insertIntoTimeTable(const QString& cat, const QString& date, const int time) {
+    QSqlQuery query;
+    query.prepare("INSERT INTO " TTABLE
+                  " (category, date, duration) "
+                  " VALUES (:cat, :date, :duration);");
+    query.bindValue(":cat", cat);
+    query.bindValue(":date", date);
+    query.bindValue(":duration", time);
+
+    if (!query.exec()) {
+        qDebug() << "error insert into " << TTABLE;
+        qDebug() << query.lastError().text();
+        return false;
+    } else {
+        return true;
+    }
     return false;
 }
 

@@ -11,9 +11,10 @@
 #include <QString>
 
 #define DATABASE_HOSTNAME "LocalHostDB"
-#define DATABASE_NAME "TimerDB"
+#define DATABASE_NAME "TimerDB.db"
 
 #define CTABLE "categoryTable"
+#define TTABLE "timeTable"
 
 class DataBase: public QObject {
     Q_OBJECT
@@ -29,10 +30,12 @@ private:
     bool restoreDataBase();
     void closeDataBase();
     bool createTable();
+    bool createTimeTable();
 
 public slots:
     bool insertIntoTable(const QVariantList& data);
     bool insertIntoTable(const QString& cat);
+    bool insertIntoTimeTable(const QString& cat, const QString& date, const int time);
     bool removeRecord(const int id);
 };
 
