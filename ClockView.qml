@@ -112,33 +112,26 @@ Rectangle {
             textRole: "category"
         }
 
-        Rectangle {
+        SimpleButton {
             id: addButton
-            width: 18; height: 18
-            color: 'transparent'
             anchors.left: combo.right
             anchors.leftMargin: 10
             anchors.verticalCenter: combo.verticalCenter
-            Text {
-                text: qsTr("(+)")
-                anchors.centerIn: parent
-                color: 'red'
+            label: qsTr("(+)")
+            area.onClicked: {
+                console.log("Adding Category!")
+                addCategoryDialog.open()
             }
 
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    console.log("Adding Category!")
-                    addCategoryDialog.open()
-                }
-            }
-
-            Dialog {
+            AddDialog {
                 id: addCategoryDialog
-                title: "Add Category"
-                standardButtons: StandardButton.Save | StandardButton.Cancel
                 onAccepted: {
                     console.log("Saved: ", myInput.text)
+                    let str = myInput.text.trim();
+                    if (str === "") {
+                        console.log("No empty string");
+                        return;
+                    }
 
                     database.insertIntoTable(myInput.text);
                     myModel.updateModel();
@@ -150,26 +143,33 @@ Rectangle {
                     myInput.text = "Category"
                 }
 
-                Item {
-                    id: content
-                    implicitWidth: 400; implicitHeight: 100
-                    Column {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.top: parent.top
-                        anchors.topMargin: 10
-                        spacing: 10
-                        Text {
-                            text: "Enter new category name."
-                            font.pixelSize: 20
-                            anchors.horizontalCenter: parent.horizontalCenter
-                        }
-                        MyInput {
-                            id: myInput
-                            width: 300
-                            height: 50
-                        }
-                    }
+            }
+        }
+
+        SimpleButton {
+            id: removeButton
+            anchors.left: addButton.right
+            anchors.leftMargin: 3
+            anchors.verticalCenter: combo.verticalCenter
+            label: qsTr("(-)")
+            text.font.pixelSize: 13
+            area.onClicked: {
+                console.log("Removing Category!")
+                removeDialog.open()
+            }
+
+            RemoveDialog {
+                id: removeDialog
+                category: combo.currentText
+
+                onAccepted: {
+                    let index = combo.currentIndex
+                    //console.log("To delete Index: ", index)
+                    database.removeRecord(myModel.getId(index))
+                    myModel.updateModel();
+                    combo.currentIndex = 0
                 }
+
             }
         }
 

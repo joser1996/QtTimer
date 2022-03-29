@@ -3,5 +3,8 @@
         <file>main.qml</file>
         <file>ClockView.qml</file>
         <file>MyInput.qml</file>
+        <file>SimpleButton.qml</file>
+        <file>AddDialog.qml</file>
+        <file>RemoveDialog.qml</file>
     </qresource>
 </RCC>

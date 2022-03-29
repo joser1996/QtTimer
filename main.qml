@@ -4,7 +4,7 @@ import QtQuick.Controls 2.0
 
 ApplicationWindow {
     id: root
-    property int clockW: 400
+    property int clockW: 425
     property int clockH: 150
     width: clockW; height: clockH
 
