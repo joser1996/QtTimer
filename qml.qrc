@@ -6,5 +6,6 @@
         <file>SimpleButton.qml</file>
         <file>AddDialog.qml</file>
         <file>RemoveDialog.qml</file>
+        <file>DataView.qml</file>
     </qresource>
 </RCC>
