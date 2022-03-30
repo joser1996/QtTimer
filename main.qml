@@ -13,57 +13,59 @@ ApplicationWindow {
 
     width: clockW; height: clockH
 
-    maximumHeight: height
-    maximumWidth: width
-    minimumHeight: height
-    minimumWidth: width
+//    maximumHeight: height
+//    maximumWidth: width
+    minimumHeight: clockH
+    minimumWidth: clockW
+
+
+    Drawer {
+        id: drawer
+        width: root.width * 0.33
+        height: root.height;
+
+        Column {
+            anchors.fill: parent
+            ItemDelegate {
+                text: "Data Graphs"
+                width: parent.width
+                onClicked: {
+                    stackView.push("DataView.qml");
+                    drawer.close()
+                    root.width = 600;
+                    root.height = 500;
+                }
+            }
+        }
+    }
 
     header: ToolBar {
-        RowLayout {
-            anchors.fill: parent
-            spacing: 1
-            ToolButton {
-                text: qsTr("&Timer")
-                onClicked: content.state = "clock";
-            }
+        contentHeight: toolButton.implicitHeight
 
-            ToolButton {
-                text: qsTr("&DataView")
-                onClicked: content.state = "data"
+        ToolButton {
+            id: toolButton
+            text: stackView.depth > 1 ? "\u25C0" : "\u2630"
+            font.pixelSize: Qt.application.font.pixelSize * 1.6
+            onClicked: {
+                if (stackView.depth > 1) {
+                    stackView.pop();
+                    root.width = root.clockW;
+                    root.height = root.clockH;
+                } else {
+                    drawer.open();
+                }
             }
+        }
+
+        Label {
+            text: stackView.currentItem.title
+            anchors.centerIn: parent
         }
     }
 
-
-    Item {
-        id: content
-        anchors.fill: parent
-
-        states: [
-            State {
-                name: "clock"
-                PropertyChanges { target: contentLoader; source: "ClockView.qml" }
-                PropertyChanges { target: root; maximumHeight: clockH; maximumWidth: clockW }
-                PropertyChanges { target: root; minimumHeight: clockH; minimumWidth: clockW }
-                PropertyChanges { target: root; width: clockW; height: clockH }
-            },
-            State {
-                name: "data"
-                PropertyChanges { target: contentLoader; source: "DataView.qml" }
-            }
-
-        ]
-
-        Loader {
-            anchors.fill: parent
-            id: contentLoader
-            source: "ClockView.qml"
-        }
-
+    StackView {
+        id: stackView
+        width: root.width; height: root.height
+        initialItem: ClockView {}
     }
-
-
-
-
-
 }

@@ -2,10 +2,10 @@ import QtQuick 2.0
 import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.3
 
-Rectangle {
+Page {
     anchors.fill: parent
-    color: 'lightgray'
     id: root
+    title: qsTr("Stop Watch")
     property alias running: timer.running
     //focus: true
     Rectangle {
