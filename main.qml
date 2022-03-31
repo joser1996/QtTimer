@@ -35,7 +35,7 @@ ApplicationWindow {
                     stackView.push("DataView.qml");
                     root.optionsVisible = true;
                     drawer.close()
-                    root.width = 750;
+                    root.width = 650;
                     root.height = 550;
                 }
             }

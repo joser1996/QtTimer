@@ -38,6 +38,7 @@ Page {
         }
 
         ListView {
+            id: categoryList
             anchors.left: chartView.right
             anchors.leftMargin: 10
             anchors.right: parent.right
@@ -55,5 +56,9 @@ Page {
         }
     }
 
+    Component.onCompleted: {
+        console.log("Default is to show data for current week.")
+        timeModel.updateModelWeek();
+    }
 
 }

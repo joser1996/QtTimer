@@ -5,6 +5,7 @@
 #include <QQmlContext>
 #include "database.h"
 #include "listmodel.h"
+#include "TimeEntryModel.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,7 +20,10 @@ int main(int argc, char *argv[])
     database.connectToDataBase();
 
     CategoryModel* model = new CategoryModel();
+    TimeEntryModel* timeModel = new TimeEntryModel();
+
     engine.rootContext()->setContextProperty("myModel", model);
+    engine.rootContext()->setContextProperty("timeModel", timeModel);
     engine.rootContext()->setContextProperty("database", &database);
 
     QQuickStyle::setStyle("Fusion");
