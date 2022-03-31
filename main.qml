@@ -10,6 +10,8 @@ ApplicationWindow {
 
     property int clockW: 425
     property int clockH: 175
+    property bool optionsVisible: false
+
 
     width: clockW; height: clockH
 
@@ -31,35 +33,48 @@ ApplicationWindow {
                 width: parent.width
                 onClicked: {
                     stackView.push("DataView.qml");
+                    root.optionsVisible = true;
                     drawer.close()
-                    root.width = 600;
-                    root.height = 500;
+                    root.width = 750;
+                    root.height = 550;
                 }
             }
         }
     }
 
     header: ToolBar {
-        contentHeight: toolButton.implicitHeight
+        RowLayout {
+            anchors.fill: parent
 
-        ToolButton {
-            id: toolButton
-            text: stackView.depth > 1 ? "\u25C0" : "\u2630"
-            font.pixelSize: Qt.application.font.pixelSize * 1.6
-            onClicked: {
-                if (stackView.depth > 1) {
-                    stackView.pop();
-                    root.width = root.clockW;
-                    root.height = root.clockH;
-                } else {
-                    drawer.open();
+            ToolButton {
+                id: toolButton
+                text: stackView.depth > 1 ? "\u25C0" : "\u2630"
+                font.pixelSize: Qt.application.font.pixelSize * 1.6
+                onClicked: {
+                    if (stackView.depth > 1) {
+                        stackView.pop();
+                        root.optionsVisible = false;
+                        root.width = root.clockW;
+                        root.height = root.clockH;
+                    } else {
+                        drawer.open();
+                    }
                 }
             }
-        }
 
-        Label {
-            text: stackView.currentItem.title
-            anchors.centerIn: parent
+            Label {
+                text: stackView.currentItem.title
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+                Layout.fillWidth: true // as wide as possible
+            }
+
+            ToolButton {
+                id: categoriesDrawer
+                text: qsTr(":")
+                onClicked: console.log("Cats pushed!")
+                visible: root.optionsVisible
+            }
         }
     }
 

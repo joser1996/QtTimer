@@ -7,5 +7,6 @@
         <file>AddDialog.qml</file>
         <file>RemoveDialog.qml</file>
         <file>DataView.qml</file>
+        <file>FrameSelector.qml</file>
     </qresource>
 </RCC>
