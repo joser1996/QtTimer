@@ -6,6 +6,7 @@
 #include "database.h"
 #include "listmodel.h"
 #include "TimeEntryModel.h"
+#include "CustomPieModel.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,7 +22,9 @@ int main(int argc, char *argv[])
 
     CategoryModel* model = new CategoryModel();
     TimeEntryModel* timeModel = new TimeEntryModel();
+    CustomPieModel pieModel{};
 
+    engine.rootContext()->setContextProperty("pieModel", &pieModel);
     engine.rootContext()->setContextProperty("myModel", model);
     engine.rootContext()->setContextProperty("timeModel", timeModel);
     engine.rootContext()->setContextProperty("database", &database);
