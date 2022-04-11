@@ -40,19 +40,6 @@ Page {
                     labelsColumn: 0
                     valuesColumn: 1
                 }
-                Component.onCompleted: {
-                    let count = pieSeries.count;
-                    console.log("Slice Count: ", count);
-//                    for(let i = 0; i < count; i++) {
-//                        console.log("Slice: ", i);
-//                        let slice = pieSeries.at(i);
-//                        slice.labelVisible = true;
-//                        slice.labelPosition = PieSlice.LabelInsideHorizontal;
-//                        var val = slice.percentage * 100;
-//                        val = val.toFixed(2);
-//                        slice.label = val.toString();
-//                    }
-                }
             }
 
         }

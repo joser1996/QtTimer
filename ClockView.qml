@@ -86,22 +86,42 @@ Page {
         anchors.top: playPause.top
         onClicked: {
             console.log("Stop pressed!")
-            //save time entry into database
             root.running = false;
+            stopButtonDialog.open();
+        }
 
-            let time = timeDisplay.seconds + (timeDisplay.minutes * 60) + (timeDisplay.hours * 60 * 60);
-            //console.log("Time durations: ", time);
 
-            resetTimer();
+        MessageDialog {
+            id: stopButtonDialog
+            title: "Save Entry"
+            standardButtons: StandardButton.Ok | StandardButton.Cancel
+            text: qsTr("Are you sure you want to stop?")
 
-            let categoryName = combo.currentText;
-            if (categoryName === "") return
+            onAccepted: {
+                let time = timeDisplay.seconds + (timeDisplay.minutes * 60) + (timeDisplay.hours * 60 * 60);
+                stop.resetTimer();
+                let categoryName = combo.currentText;
+                if (categoryName === "") return
 
-            let date = new Date();
-            let dateStr = date.toISOString();
+                let date = new Date();
+                let dateStr = date.toISOString();
 
-            if (!database.insertIntoTimeTable(categoryName, dateStr, time)) {
-                console.log("Insert into  time table failed");
+                if (!database.insertIntoTimeTable(categoryName, dateStr, time)) {
+                    console.log("Insert into  time table failed");
+                    return;
+                }
+                //everytime I insert into timetable I want to update pieModel//barModel
+                console.log("Trying to update pie model");
+                if (pieModel.updateModel()) { //invoke c++ function like this
+                    console.log("Worked");
+                } else {
+                    console.log("Did not work");
+                }
+            }
+
+            onRejected: {
+                //resume the timer
+                root.running = true;
             }
         }
 

@@ -3,7 +3,7 @@
 #include <QAbstractTableModel>
 
 class CustomPieModel: public QAbstractTableModel {
-
+    Q_OBJECT
 public:
     explicit CustomPieModel(QObject* parent = 0);
 
@@ -12,6 +12,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     bool setCurrentWeek();
     bool setToday();
+    Q_INVOKABLE bool updateModel();
+
 private:
     QList<QString> labels;
     QList<int> values;

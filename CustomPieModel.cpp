@@ -5,12 +5,12 @@
 #include <iomanip>
 #include <ctime>
 #include <sstream>
-#include <iostream>
+
 CustomPieModel::CustomPieModel(QObject* parent): QAbstractTableModel(parent) {
     if (this->setToday()) {
-        qDebug() << "Succesfully Initialized?";
-        qDebug() << this->labels;
-        qDebug() << this->values;
+//        qDebug() << "Succesfully Initialized?";
+//        qDebug() << this->labels;
+//        qDebug() << this->values;
     } else {
         qDebug() << ":(";
     }
@@ -80,17 +80,24 @@ bool CustomPieModel::setCurrentWeek() {
     return false;
 }
 
-bool CustomPieModel::setToday() {
-    QString today;
-//    auto t = std::time(nullptr);
-//    auto tm = *std::localtime(&t);
-//    std::ostringstream oss;
-//    oss << std::put_time(&tm, "%Y-%m-%d");
-//    auto str = oss.str();
-//    std::cout << "Date: " << str;
-//    //qDebug() << "Date: " << str;
+bool CustomPieModel::updateModel() {
+    if(this->setToday()) {
+        qDebug() << "Succesfully updated";
+        return true;
+    }
+    qDebug() << "Did not update";
+    return false;
+}
 
-    QString q = "SELECT category, duration FROM timeTable WHERE date >= datetime('2022-04-01') ;";
+bool CustomPieModel::setToday() {
+    std::time_t t = std::time(nullptr);
+    tm tmo = *std::localtime(&t);
+    std::ostringstream oss;
+    oss << std::put_time(&tmo, "%Y-%m-%d");
+    auto str = oss.str();
+    QString today = QString::fromStdString(str);
+    QString q = QString("SELECT category, duration FROM timeTable WHERE date > datetime('%1') ;").arg(today);
+    qDebug() << "Todays Query: " << q;
     QSqlQuery query;
     if (!query.prepare(q)) {
         qDebug() << "Error Preparing";
