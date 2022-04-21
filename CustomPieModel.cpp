@@ -96,7 +96,9 @@ bool CustomPieModel::setToday() {
     oss << std::put_time(&tmo, "%Y-%m-%d");
     auto str = oss.str();
     QString today = QString::fromStdString(str);
-    QString q = QString("SELECT category, duration FROM timeTable WHERE date > datetime('%1') ;").arg(today);
+    qDebug() << "Date Set as: " << today;
+
+    QString q = QString("SELECT category, duration FROM timeTable WHERE date = '%1';").arg(today);
     qDebug() << "Todays Query: " << q;
     QSqlQuery query;
     if (!query.prepare(q)) {
@@ -133,6 +135,52 @@ bool CustomPieModel::setToday() {
     }
     return false;
 }
+
+bool CustomPieModel::setDay(const QString& date) {
+    qDebug() << "CustomPieModel::Setting date as: " << date;
+    QString q = QString("SELECT category, duration FROM timeTable WHERE date = '%1';").arg(date);
+    QSqlQuery query;
+    if (!query.prepare(q)) {
+        qDebug() << "Error preparing";
+        qDebug() << query.lastError().text();
+    }
+
+    if (query.exec()) {
+        QMap<QString, int> table;
+        QList<QString> labels;
+        QList<int> values;
+        while(query.next()) {
+            QString category = query.value(0).toString();
+            int duration = query.value(1).toInt();
+
+            if (table.find(category) != table.end()) {
+                table[category] += duration;
+            } else {
+                table[category] = duration;
+            }
+        }
+        QMapIterator<QString, int> it (table);
+        while(it.hasNext()) {
+            it.next();
+            labels.push_back(it.key());
+            values.push_back(it.value());
+        }
+
+        //beginInsertRows();
+        beginResetModel();
+        this->labels = labels;
+        this->values = values;
+        endResetModel();
+        //endInsertRows();
+        return true;
+    } else {
+        qDebug() << "Error setting to day: " << date;
+        qDebug() << query.lastError().text();
+        return false;
+    }
+    return false;
+}
+
 
 //for the right time frame like current week
 

@@ -8,11 +8,78 @@ Page {
     anchors.fill: parent
     title: qsTr("Data View")
 
+
+
     FrameSelector {
         id: frameSelector
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.topMargin: 20
+        currentFrame: getCurrentDate()
+        currentDate: getCurrentISO()
+        property int dayOffset: 0
+
+
+        leftButton.onClicked: {
+            console.log('Left Button Pressed')
+            //first update label
+            frameSelector.dayOffset--;
+            var newDate = new Date();
+            newDate.setDate(newDate.getDate() + frameSelector.dayOffset);
+            frameSelector.currentFrame = frameSelector.dateToString(newDate);
+
+            //update graph (PIE MODEL)
+            let dateStr = newDate.toISOString().split('T');
+            dateStr = dateStr[0];
+            console.log("Updating model to: ", dateStr);
+            if (pieModel.setDay(dateStr)) console.log("Worked");
+            else console.log("Failed");
+            chartView.update();
+
+            //pieModel.updateModel();
+        }
+
+
+        rightButton.onClicked: {
+            console.log('Right Button Pressed')
+            frameSelector.dayOffset++;
+            var newDate = new Date();
+            newDate.setDate(newDate.getDate() + frameSelector.dayOffset);
+            frameSelector.currentFrame = frameSelector.dateToString(newDate);
+
+            //update PIE MODEL
+            let dateStr = newDate.toISOString().split('T');
+            dateStr = dateStr[0];            console.log("Updating model to: ", dateStr);
+            if (pieModel.setDay(dateStr)) console.log("Worked");
+            else console.log("Failed");
+            chartView.update();
+
+        }
+
+        function dateToString(d) {
+            let str = d.toLocaleDateString('en-US', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            return str;
+        }
+
+
+
+        function getCurrentISO() {
+            let date = new Date();
+            return date.toISOString();
+        }
+
+        function getCurrentDate() {
+            let date = new Date().toLocaleDateString('en-US', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+            });
+            return date;
+        }
     }
 
     RowLayout {

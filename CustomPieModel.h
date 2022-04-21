@@ -12,8 +12,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     bool setCurrentWeek();
     bool setToday();
+    Q_INVOKABLE bool setDay(const QString& date);
     Q_INVOKABLE bool updateModel();
-
 private:
     QList<QString> labels;
     QList<int> values;

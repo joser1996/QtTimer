@@ -105,6 +105,8 @@ Page {
 
                 let date = new Date();
                 let dateStr = date.toISOString();
+                dateStr = dateStr.split('T');
+                dateStr = dateStr[0];
 
                 if (!database.insertIntoTimeTable(categoryName, dateStr, time)) {
                     console.log("Insert into  time table failed");
