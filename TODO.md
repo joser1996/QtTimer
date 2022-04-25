@@ -11,5 +11,10 @@
 	* ~~ graph charts (pie chartrs for now) ~~
 	* ~~ Time window ; for now link top selector to week; current week or prevoius weeks; so we're
 	  only doing day window for now ~~
-	* ~~ Graph data only updates when app is launched ~~
+	* ~~ Graph data only updates when app is launched
+
+
+## Version 2.0
+* Allow for manual entry of time and category to database
+* Show pie graph for a one week window as well
 
