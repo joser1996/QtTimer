@@ -19,8 +19,8 @@ The goal is to create a simple application that lets me keep track of what I spe
 
 ### Timer Mode
 
-![Timer Mode](E:\QtProjects\timer\Timer.png)
+![Timer Mode](Timer.png)
 
 ### Data Visualization
 
-![](E:\QtProjects\timer\DataVisualization.PNG)
+![](DataVisualization.PNG)
