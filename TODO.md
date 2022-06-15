@@ -18,3 +18,6 @@
 * Allow for manual entry of time and category to database
 * Show pie graph for a one week window as well
 
+## Bugs
+* When deleting categories selected category and other is deleted.(2 are being deleted)
+

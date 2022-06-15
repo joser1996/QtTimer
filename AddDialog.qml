@@ -6,6 +6,7 @@ Dialog {
     title: "Add Category"
     standardButtons: StandardButton.Save | StandardButton.Cancel
     property alias myInput: myInput
+
     Item {
         id: content
         implicitWidth: 400; implicitHeight: 100

@@ -21,13 +21,18 @@ int main(int argc, char *argv[])
     DataBase database;
     database.connectToDataBase();
 
+    //SQL Model that has categories saved in DB
     CategoryModel* model = new CategoryModel();
+    //SQL Model that gets data from time entry table in DB
     TimeEntryModel* timeModel = new TimeEntryModel();
-    CustomPieModel pieModel{};
-    CustomBarModel barModel{};
+
+    //Pie model for Pie Chart View
+    CustomPieModel pieModel;
+    CustomBarModel barModel;
 
     engine.rootContext()->setContextProperty("pieModel", &pieModel);
     //engine.rootContext()->setContextProperty("barModel", &barModel);
+
 
     engine.rootContext()->setContextProperty("myModel", model);
     engine.rootContext()->setContextProperty("timeModel", timeModel);

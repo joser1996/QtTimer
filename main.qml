@@ -2,11 +2,11 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.0
+
 ApplicationWindow {
     id: root
-
     visible: true
-    title: qsTr("Timer")
+    title: qsTr("Time Logger")
 
     property int clockW: 425
     property int clockH: 175
@@ -14,11 +14,7 @@ ApplicationWindow {
 
 
     width: clockW; height: clockH
-
-//    maximumHeight: height
-//    maximumWidth: width
-    minimumHeight: clockH
-    minimumWidth: clockW
+    minimumHeight: clockH; minimumWidth: clockW
 
 
     Drawer {
@@ -39,6 +35,20 @@ ApplicationWindow {
                     root.height = 550;
                 }
             }
+
+            ItemDelegate {
+                text: "Manual Entry"
+                width: parent.width
+                onClicked: {
+                    console.log("Manual entry")
+                    stackView.push("ManualEntryForm.qml");
+                    drawer.close();
+                    root.width = 500;
+                    root.height = 600;
+                }
+            }
+
+
         }
     }
 
@@ -63,6 +73,7 @@ ApplicationWindow {
             }
 
             Label {
+                id: titleLabel
                 text: stackView.currentItem.title
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter

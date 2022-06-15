@@ -8,5 +8,7 @@
         <file>RemoveDialog.qml</file>
         <file>DataView.qml</file>
         <file>FrameSelector.qml</file>
+        <file>TimeDisplay.qml</file>
+        <file>ManualEntryForm.qml</file>
     </qresource>
 </RCC>

@@ -3,69 +3,26 @@ import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.3
 
 Page {
-    anchors.fill: parent
+
     id: root
     title: qsTr("Stop Watch")
-    property alias running: timer.running
-    //focus: true
-    Rectangle {
+    anchors.fill: parent
+
+    TimeDisplay {
         id: timeDisplay
-        color: 'black'
         anchors.left: parent.left
         anchors.leftMargin: 20
         anchors.top: parent.top
         anchors.topMargin: 20
-        height:70; width: 170
 
-        property int hours: 0
-        property int minutes: 0
-        property int seconds: 0
-
-        Timer {
-            id: timer
-            interval: 1000; running: false; repeat: true;
-            onTriggered: timeDisplay.updateTime()
-        }
-
-        function updateTime() {
-            seconds++;
-            if (seconds == 60) {
-                seconds = 0
-                minutes++;
-                if (minutes == 60) {
-                    minutes = 0
-                    hours++
-                }
-            }
-
-            let mins = minutes <= 9 ? "0"+minutes : minutes
-            let hrs = hours <= 9 ? "0"+hours : hours
-            let secs = seconds <= 9 ? "0"+seconds : seconds
-            let timeStr =  hrs + ":" + mins + ":" + secs
-            timeLabel.text = timeStr
-        }
-
-        Text {
-            id: timeLabel
-            text: "00:00:00"
-            font.pointSize: 100
-            minimumPointSize: 10
-            fontSizeMode: Text.Fit
-            color: 'green'
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.topMargin: 5
-        }
+        height: 70; width: 170;
 
     }
 
-    Keys.onSpacePressed: {
-        playPause.clicked()
-    }
+    Keys.onSpacePressed: playPause.clicked();
 
     Button {
-        id:playPause
+        id: playPause
         text: "Play/Pause"
         font.pointSize: 7
         anchors.left: timeDisplay.left
@@ -73,8 +30,7 @@ Page {
         anchors.topMargin: 10
 
         onClicked: {
-            console.log("Play/Pause pressed!")
-            root.running = !root.running
+            timeDisplay.running = !timeDisplay.running
         }
     }
 
@@ -85,8 +41,7 @@ Page {
         anchors.right: timeDisplay.right
         anchors.top: playPause.top
         onClicked: {
-            console.log("Stop pressed!")
-            root.running = false;
+            timeDisplay.running = false;
             stopButtonDialog.open();
         }
 
@@ -165,7 +120,6 @@ Page {
             anchors.verticalCenter: combo.verticalCenter
             label: qsTr("(+)")
             area.onClicked: {
-                console.log("Adding Category!")
                 addCategoryDialog.open()
             }
 

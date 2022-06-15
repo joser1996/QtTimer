@@ -9,7 +9,7 @@ Page {
     title: qsTr("Data View")
 
 
-
+    //used to select time frame
     FrameSelector {
         id: frameSelector
         anchors.horizontalCenter: parent.horizontalCenter
@@ -18,7 +18,6 @@ Page {
         currentFrame: getCurrentDate()
         currentDate: getCurrentISO()
         property int dayOffset: 0
-
 
         leftButton.onClicked: {
             console.log('Left Button Pressed')
@@ -38,7 +37,6 @@ Page {
 
             //pieModel.updateModel();
         }
-
 
         rightButton.onClicked: {
             console.log('Right Button Pressed')
@@ -64,8 +62,6 @@ Page {
             });
             return str;
         }
-
-
 
         function getCurrentISO() {
             let date = new Date();
